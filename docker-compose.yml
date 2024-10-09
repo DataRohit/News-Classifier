@@ -1,0 +1,32 @@
+services:
+  news_postgres:
+    image: postgres:16
+    container_name: news_postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - news_postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=news_db
+    networks:
+      - news_classifier_network
+
+  news_redis:
+    image: redis:6
+    container_name: news_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - news_redis_data:/data
+    networks:
+      - news_classifier_network
+
+networks:
+  news_classifier_network:
+    driver: bridge
+
+volumes:
+  news_postgres_data:
+  news_redis_data:
